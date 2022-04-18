@@ -2,6 +2,7 @@ package com.feng.edu.mapper;
 
 import com.feng.edu.entity.Chapter;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * <p>
@@ -11,6 +12,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author feng
  * @since 2022-04-14
  */
+@Mapper
 public interface ChapterMapper extends BaseMapper<Chapter> {
 
 }

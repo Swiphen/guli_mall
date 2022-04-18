@@ -1,9 +1,12 @@
 package com.feng.edu.controller;
 
 
-import org.springframework.web.bind.annotation.RequestMapping;
+import com.feng.edu.entity.Teacher;
+import com.feng.edu.service.TeacherService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RestController;
+import java.util.List;
 
 /**
  * <p>
@@ -16,6 +19,25 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/edu/teacher")
 public class TeacherController {
+    @Autowired
+    private TeacherService teacherService;
 
+    @GetMapping("/hello")
+    public String hello() {
+        return "hello world!";
+    }
+
+    @GetMapping("/findAll")
+    public List<Teacher> findAllTeacher() {
+        List<Teacher> list = teacherService.list(null);
+
+        return list;
+    }
+
+    @DeleteMapping("/del")
+    public boolean deleteTeacher(String id) {
+        boolean flag = teacherService.removeById(id);
+        return flag;
+    }
 }
 
