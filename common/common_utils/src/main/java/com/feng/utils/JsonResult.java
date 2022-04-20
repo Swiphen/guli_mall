@@ -1,4 +1,4 @@
-package com.feng.entity;
+package com.feng.utils;
 
 import java.util.HashMap;
 import java.util.Map;

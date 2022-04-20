@@ -3,7 +3,7 @@ package com.feng.edu.controller;
 
 import com.feng.edu.entity.Teacher;
 import com.feng.edu.service.TeacherService;
-import com.feng.entity.JsonResult;
+import com.feng.utils.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
