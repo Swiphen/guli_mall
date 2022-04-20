@@ -3,6 +3,7 @@ package com.feng.edu.controller;
 
 import com.feng.edu.entity.Teacher;
 import com.feng.edu.service.TeacherService;
+import com.feng.entity.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,10 +29,9 @@ public class TeacherController {
     }
 
     @GetMapping("/findAll")
-    public List<Teacher> findAllTeacher() {
+    public JsonResult findAllTeacher() {
         List<Teacher> list = teacherService.list(null);
-
-        return list;
+        return JsonResult.success().add("list", list);
     }
 
     @DeleteMapping("/del")
