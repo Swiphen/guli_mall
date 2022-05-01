@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+configuration 根节点
+scan：当此属性设置为true时，配置文件如果发生改变，将会被重新加载，默认值为true。
+scanPeriod：设置监测配置文件是否有修改的时间间隔，如果没有给出时间单位，默认单位是毫秒；当scan为true时，此属性生效。默认的时间间隔为1分钟。
+debug：当此属性设置为true时，将打印出logback内部日志信息，实时查看logback运行状态。默认值为false。
+-->
+<configuration scanPeriod="60 seconds">
+
+    <!--日志级别以及优先级排序: OFF > FATAL > ERROR > WARN > INFO > DEBUG > TRACE > ALL -->
+
+    <!--property子节点
+    property用来定义变量值的标签，<property> 有两个属性，name和value。通过<property>定义的值会被插入到logger上下文中。定义变量后，可以使“${}”来使用变量。
+    使用 ${} 来动态读取系统命令行参数来指定日志输出路径
+    <property name="log.path" value="${LOG_PATH:-.}/logs"/>
+    <property name="MAX_FILE_SIZE" value="10MB"/>
+    注意：
+    配置文件名为logback.xml，则使用的是property
+    配置文件名为logback-spring.xml，则使用的是springProperty
+    使用springProperty来获取到application.yml中的配置来指定输出路径
+    -->
+    <!--        <springProperty name="LOG_NAME" scope="context" source="spring.application.name" defaultValue="zjjggl-company"/>-->
+    <!--        <springProperty name="LOG_PATH" scope="context" source="logging.path" defaultValue="/logs"/>-->
+    <!--        <springProperty name="LOG_ROOT_LEVEL" scope="context" source="logging.level.root" defaultValue="DEBUG"/>-->
+    <!--        <springProperty name="LOG_MAX_FILE_SIZE" scope="context" source="logback.file-size" defaultValue="100MB"/>-->
+    <!--        <springProperty name="LOG_FILE_MAX_DAY" scope="context" source="logback.max-history" defaultValue="30"/>-->
+    <!--        &lt;!&ndash; 标识这个"STDOUT" 将会添加到这个logger &ndash;&gt;-->
+    <!--        <springProperty  name="STDOUT" scope="context" source="log.stdout" defaultValue="STDOUT"/>-->
+    <!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径 -->
+    <!--        <property name="LOG_HOME" value="${LOG_PATH}" />-->
+    <!--        <property name="CONTEXT_NAME" value="${LOG_NAME}" />-->
+
+
+    <property name="CONTEXT_NAME" value="gengbao"/>
+    <property name="LOG_HOME" value="D:/logs"/>
+    <property name="LOG_MAX_FILE_SIZE" value="50MB"/>
+    <property name="LOG_FILE_MAX_DAY" value="30"/>
+
+
+    <!--
+    contextName：每个logger都关联到logger上下文，默认上下文名称为“default”。
+    但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。
+    -->
+    <contextName>${CONTEXT_NAME}</contextName>
+
+    <property name="log.path" value="E://myProject/guli_mall-master/guli_mall/logs"/>
+
+
+    <!-- 彩色日志 -->
+    <!-- 彩色日志依赖的渲染类 -->
+    <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter"/>
+    <conversionRule conversionWord="wex"
+                    converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter"/>
+    <conversionRule conversionWord="wEx"
+                    converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter"/>
+
+    <!-- 控制台彩色日志格式 -->
+    <!--格式化输出：
+    %d: 输出日志时间点的日期或时间，默认格式为ISO8601，也可以在其后指定格式，比如：%d{yyyy-MM-dd HH:mm:ss.SSS}
+    %level: 级别
+    %thread: 线程名
+    %logger{36}:表示Logger名字最长36个字符
+    %msg: 日志消息
+    %n: 换行符
+    -->
+    <property name="CONSOLE_LOG_PATTERN"
+              value="[${CONTEXT_NAME}] %clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%level){blue} %clr(${PID}){magenta} %clr([%thread]){orange} %clr(%logger{36} [%file : %line]){cyan}  - %msg%n{LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
+    <property name="CONSOLE_LOG_PATTERN_NO_COLOR"
+              value="[${CONTEXT_NAME} %d{yyyy-MM-dd HH:mm:ss.SSS} %level ${PID} [%thread] %logger{36} [%file : %line] - %msg%n{LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
+    <!-- 文件日志样式 -->
+    <property name="FILE_LOG_PATTERN"
+              value="${FILE_LOG_PATTERN:-%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}} ${LOG_LEVEL_PATTERN:-%5p} ${PID:- } [%t] %-40.40logger{39} %L : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
+
+    <!-- 禁用logback自身日志输出 -->
+    <statusListener class="ch.qos.logback.core.status.NopStatusListener"/>
+
+    <!-- appender定义的是Log输出的地方
+    ConsoleAppender（控制台）
+    FileAppender（文件）
+    DailyRollingFileAppender（每天产生一个日志文件）
+    RollingFileAppender（文件大小到达指定尺寸的时候产生一个新的文件）
+    WriterAppender（将日志信息以流格式发送到任意指定的地方）-->
+
+
+    <!-- 输出到控制台，本地调试时可以开启此输出，方便本地调试与排查问题，部署线上环境时候切记要注释掉。
+    ps:服务器上输出到日志文件中，所以要注释掉，否则tail log时会产生两份日志等及其他问题，最好注释掉。-->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!-- 按照每天生成常规日志文件 ，滚动记录文件，先将日志记录到指定文件，当符合某个条件时，将日志记录到其他文件-->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 指定日志文件的名称 -->
+        <file>${LOG_HOME}/${CONTEXT_NAME}/info.log</file>
+        <!--是否追加到文件末尾,默认为true-->
+        <append>true</append>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>DENY</onMatch><!-- 如果命中ERROR就禁止这条日志 -->
+            <onMismatch>ACCEPT</onMismatch><!-- 如果没有命中就使用这条规则 -->
+        </filter>
+        <!-- 基于时间的分包策略 -->
+        <!--
+        当发生滚动时，决定 RollingFileAppender 的行为，涉及文件移动和重命名
+        TimeBasedRollingPolicy： 最常用的滚动策略，它根据时间来制定滚动策略，既负责滚动也负责出发滚动。
+        -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!--
+            日志文件输出的文件名
+            滚动时产生的文件的存放位置及文件名称 %d{yyyy-MM-dd}：按天进行日志滚动
+            %i：当文件大小超过maxFileSize时，按照i进行文件滚动
+            -->
+            <fileNamePattern>${LOG_PATH}/${CONTEXT_NAME}/info.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!--
+            当日志文件超过maxFileSize指定的大小时，根据上面提到的%i进行日志文件滚动
+            注意此处配置SizeBasedTriggeringPolicy是无法实现按文件大小进行滚动的，必须配置timeBasedFileNamingAndTriggeringPolicy
+            -->
+            <maxFileSize>${LOG_MAX_FILE_SIZE}</maxFileSize>
+            <!--
+            可选节点，控制保留的归档文件的最大数量，超出数量就删除旧文件。假设设置每天滚动，
+            且maxHistory是365，则只保存最近365天的文件，删除之前的旧文件。注意，删除旧文件时，那些为了归档而创建的目录也会被删除。
+            -->
+            <!--保留时间,单位:天-->
+            <maxHistory>${LOG_FILE_MAX_DAY}</maxHistory>
+        </rollingPolicy>
+        <!-- 输出的日志内容格式化-->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <!-- 此日志文件只记录info级别的 -->
+        <!--        <filter class="ch.qos.logback.classic.filter.LevelFilter">-->
+        <!--            <level>info</level>-->
+        <!--            <onMatch>ACCEPT</onMatch>-->
+        <!--            <onMismatch>DENY</onMismatch>-->
+        <!--        </filter>-->
+    </appender>
+    <!-- 按照每天生成错误日志文件 -->
+    <appender name="FILE_ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 指定日志文件的名称 -->
+        <file>${LOG_HOME}/${CONTEXT_NAME}/error.log</file>
+        <!-- 基于时间的分包策略 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/${CONTEXT_NAME}/error.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!--保留时间,单位:天-->
+            <maxHistory>${LOG_FILE_MAX_DAY}</maxHistory>
+            <!--当天的日志大小超过 ${MAX_FILE_SIZE} 文件大小时候，新的内容写入新的文件， 默认100MB-->
+            <maxFileSize>${LOG_MAX_FILE_SIZE}</maxFileSize>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <!-- 只打印错误日志 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <!-- 异步写日志 -->
+    <!--    <appender name="ASYNC_FILE" class="ch.qos.logback.classic.AsyncAppender">-->
+    <!--        <discardingThreshold>0</discardingThreshold>-->
+    <!--        <queueSize>1024</queueSize>-->
+    <!--        <appender-ref ref="FILE"/>-->
+    <!--    </appender>-->
+    <!--    <appender name="ASYNC_FILE_ERROR" class="ch.qos.logback.classic.AsyncAppender">-->
+    <!--        <discardingThreshold>0</discardingThreshold>-->
+    <!--        <queueSize>1024</queueSize>-->
+    <!--        <appender-ref ref="FILE_ERROR"/>-->
+    <!--    </appender>-->
+
+    <!-- logger子节点
+    logger用来设置某一个包或者具体的某一个类的日志打印级别、以及指定<appender>
+    name: 表示匹配的logger类型前缀，也就是包的前半部分（包名 或 类的全路径）
+    level: 要记录的日志级别，包括 TRACE < DEBUG < INFO < WARN < ERROR < FATAL（logger中的level会覆盖root中的，即以logger中为准，不管是否向上传递）
+    additivity: 是否向上级logger传递打印信息，默认是true，作用在于children-logger是否使用root配置的appender进行输出（日志信息是否向上（root）传递）
+        默认情况下子Logger会继承root的Logger的appender，也就是说子Logger会在root的Logger的appender里输出
+        false，表示只会在自己的appender-ref里输出，此logger的打印信息不再向上级传递
+        true，表示当前logger的appender-ref和root的appender-ref都有效，日志会打印两次 logger本身打印一次，root又打印一次
+    不设置appender，此logger本身不打印任何信息，additivity为true，也仅打印一次
+    logger 配置，不指定级别，不指appender，使用 root 节点的打印级别设置为 info
+    -->
+
+    <!--mybatis plus configure -->
+    <logger name="com.apache.ibatis" level="TRACE"/>
+    <logger name="java.sql.Connection" level="DEBUG"/>
+    <logger name="java.sql.Statement" level="DEBUG"/>
+    <logger name="java.sql.PreparedStatement" level="DEBUG"/>
+    <!-- 因为mybatis打印的sql日志是debug级别的，所以特意指定mybatis的日志为debug，不然sql语句打印不出来   -->
+    <logger name="com.feng.edu.mapper" level="DEBUG"/>
+
+
+    <!-- 指定项目中某个包，当有日志操作行为时的日志记录级别，name包必须能够扫描到所有类，包括启动。 -->
+    <!-- 级别依次为【从高到低】：FATAL > ERROR > WARN > INFO > DEBUG > TRACE
+        如果设置为 WARN ，则低于WARN的信息都不会输出(也就是说代码中的日志打印log.warn、log.error、log.fatal才会输出)  -->
+    <!--    <logger name="com.guodi.zjjggl.service" level="INFO" additivity="false">-->
+    <!--        <appender-ref ref="FILE"/>-->
+    <!--        <appender-ref ref="FILE_ERROR"/>-->
+    <!--    </logger>-->
+
+    <!-- 不同环境的日志级别配置 -->
+    <!--    <springProfile name="dev,test">-->
+    <!--        <logger name="com.guodi.zjjggl" level="DEBUG" additivity="false">-->
+    <!--            <appender-ref ref="STDOUT"/>-->
+    <!--            <appender-ref ref="FILE"/>-->
+    <!--            <appender-ref ref="FILE_ERROR"/>-->
+    <!--        </logger>-->
+    <!--    </springProfile>-->
+
+    <!--    <springProfile name="prod">-->
+    <!--        <logger name="com.guodi.zjjggl" level="INFO" additivity="false">-->
+    <!--            <appender-ref ref="FILE"/>-->
+    <!--            <appender-ref ref="FILE_ERROR"/>-->
+    <!--        </logger>-->
+    <!--    </springProfile>-->
+
+
+    <!-- 不同环境的日志级别配置 -->
+    <springProfile name="dev,test">
+        <root>
+            <level value="DEGUB"/>
+            <appender-ref ref="STDOUT"/>
+            <appender-ref ref="FILE"/>
+            <appender-ref ref="FILE_ERROR"/>
+        </root>
+    </springProfile>
+    <springProfile name="prod">
+        <root>
+            <level value="INFO"/>
+            <appender-ref ref="FILE"/>
+            <appender-ref ref="FILE_ERROR"/>
+        </root>
+    </springProfile>
+
+    <!-- root 子节点
+    root配置必须在appender下边
+    root节点是必选节点，用来指定最基础的日志输出级别，只有一个level属性，用来设置打印级别，包含多个appender
+    root节点是对所有appender的管理，添加哪个appender就会打印哪个appender的日志
+    如果appender的日志级别设定比root的高,会按照appender的日志级别打印日志
+    如果appender的日志级别比root的低,会按照root设定的日志级别进行打印日志
+    root可以理解为一个根节点，而其他的logger都可以看做root的子节点
+    默认root配置的appender属性，logger都是使用的，如果不想使用，可以在logger定义时增加属性additivity="false"-->
+    <root level="INFO">
+        <!-- 标识STDOUT,添加到这个logger -->
+        <appender-ref ref="STDOUT"/>
+        <!-- FILE 日志输出添加到 logger -->
+        <appender-ref ref="FILE"/>
+        <!-- FILE_ERROR 日志输出添加到 logger -->
+        <appender-ref ref="FILE_ERROR"/>
+        <!--        <appender-ref ref="ASYNC_FILE"/>-->
+        <!--        <appender-ref ref="ASYNC_FILE_ERROR"/>-->
+    </root>
+
+</configuration>
+
