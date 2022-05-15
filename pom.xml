@@ -13,6 +13,7 @@
         <module>service</module>
         <module>common</module>
         <module>common/common_utils</module>
+        <module>service_osss</module>
     </modules>
 
 

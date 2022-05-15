@@ -7,10 +7,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="common_utils" />
-        <module name="common" />
         <module name="service_edu" />
         <module name="generator" />
+        <module name="service_oss" />
+        <module name="common" />
+        <module name="common_utils" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="8" />
