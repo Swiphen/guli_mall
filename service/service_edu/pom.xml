@@ -65,7 +65,6 @@
             <artifactId>mybatis-plus-boot-starter</artifactId>
             <version>3.5.1</version>
         </dependency>
-
         <!--引入公共返回对象-->
         <dependency>
             <groupId>com.feng</groupId>
