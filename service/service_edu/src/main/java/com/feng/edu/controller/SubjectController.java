@@ -1,9 +1,13 @@
 package com.feng.edu.controller;
 
 
+import com.feng.edu.service.SubjectService;
+import com.feng.utils.JsonResult;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * <p>
@@ -17,5 +21,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/edu/subject")
 public class SubjectController {
 
+    @Autowired
+    private SubjectService subjectService;
+
+    //添加课程分类
+    @RequestMapping("/addSubject")
+    public JsonResult addSubject(MultipartFile file) {
+        subjectService.addSubject(file);
+        return JsonResult.success();
+    }
 }
 

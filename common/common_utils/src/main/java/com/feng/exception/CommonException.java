@@ -8,6 +8,14 @@ public class CommonException extends RuntimeException {
     private Integer code;
     private String msg;
 
+    public CommonException() {
+    }
+
+    public CommonException(Integer code, String msg) {
+        this.code = code;
+        this.msg = msg;
+    }
+
     public Integer getCode() {
         return code;
     }

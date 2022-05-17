@@ -26,6 +26,7 @@ public class ConstantPropertiesUtils implements InitializingBean {
     public static String KEY_SECRET;
     public static String BUCKET_NAME;
 
+    @Override
     public void afterPropertiesSet() throws Exception {
         END_POINT = endpoint;
         KEY_ID = keyid;
