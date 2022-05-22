@@ -9,6 +9,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 //@MapperScan("com.feng.edu.mapper")
 public class EduApplication {
     public static void main(String[] args) {
-        SpringApplication.run(EduApplication.class, args);
+        try {
+            SpringApplication.run(EduApplication.class, args);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -12,7 +12,6 @@
         <module>generator</module>
         <module>service</module>
         <module>common</module>
-        <module>common/common_utils</module>
     </modules>
 
 

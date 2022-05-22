@@ -1,7 +1,10 @@
 package com.feng.edu.service.impl;
 
+import com.alibaba.excel.EasyExcel;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.feng.edu.entity.Subject;
+import com.feng.edu.entity.vo.SubjectVo;
+import com.feng.edu.listener.SubjectExcelListener;
 import com.feng.edu.mapper.SubjectMapper;
 import com.feng.edu.service.SubjectService;
 import org.springframework.stereotype.Service;
@@ -25,8 +28,7 @@ public class SubjectServiceImpl extends ServiceImpl<SubjectMapper, Subject> impl
     public void addSubject(MultipartFile file) {
         try {
             InputStream in = file.getInputStream();
-
-//            EasyExcel.read(in, SubjectVo.class, new SubjectExcelListener()).sheet().doRead();
+            EasyExcel.read(in, SubjectVo.class, new SubjectExcelListener()).sheet().doRead();
         } catch (IOException e) {
             e.printStackTrace();
         }

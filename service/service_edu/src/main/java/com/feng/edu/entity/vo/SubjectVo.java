@@ -1,5 +1,6 @@
 package com.feng.edu.entity.vo;
 
+import com.alibaba.excel.annotation.ExcelProperty;
 import lombok.Data;
 
 /**
@@ -8,8 +9,8 @@ import lombok.Data;
  */
 @Data
 public class SubjectVo {
-//    @ExcelProperty(index = 0)
+    @ExcelProperty(index = 0)
     private String oneSubjectName;
-//    @ExcelProperty(index = 1)
+    @ExcelProperty(index = 1)
     private String towSubjectName;
 }
